@@ -122,25 +122,26 @@ async function loadArticleDetail() {
     return;
   }
 
-  const { data, error } = await supabaseClient
-    .from("articles")
-    .select(`
+ const { data, error } = await supabaseClient
+  .from("articles")
+  .select(`
   id,
   title,
   slug,
   excerpt,
   content,
   cover_url,
+  image_caption,
   author_id,
   writer_name,
   writer_email,
   created_at,
   categories(name),
   profiles(
-  name,
-  avatar_url,
-  bio
-)
+    name,
+    avatar_url,
+    bio
+  )
 `)
     .eq("slug", slug)
     .eq("status", "published")

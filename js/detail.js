@@ -305,6 +305,7 @@ async function loadRelatedArticles(currentId) {
       slug,
       excerpt,
       cover_url,
+      image_caption,
       created_at,
       categories(name)
     `)

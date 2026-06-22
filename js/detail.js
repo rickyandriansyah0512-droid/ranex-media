@@ -162,12 +162,6 @@ async function loadArticleDetail() {
     article_id: data.id
   }
 );
-  await supabaseClient
-  .from("articles")
-  .update({
-    views: (data.views || 0) + 1
-  })
-  .eq("id", data.id);
   console.log("ARTICLE", data);
 console.log("AUTHOR ID", data.author_id);
  let authorProfile = null;

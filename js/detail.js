@@ -159,7 +159,7 @@ async function loadArticleDetail() {
   await supabaseClient
   .from("articles")
   .update({
-    view: (data.view || 0) + 1
+    views: (data.views || 0) + 1
   })
   .eq("id", data.id);
   console.log("ARTICLE", data);

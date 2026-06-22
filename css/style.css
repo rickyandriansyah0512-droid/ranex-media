@@ -5094,3 +5094,15 @@ html[data-theme="dark"] .site-header {
   object-position:center;
   display:block;
 }
+.image-caption{
+  margin-top:8px;
+  margin-bottom:20px;
+
+  font-size:12px;
+  line-height:1.5;
+
+  color:#777;
+}
+[data-theme="dark"] .image-caption{
+  color:#aaa;
+}

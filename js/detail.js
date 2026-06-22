@@ -264,7 +264,14 @@ detailDate.textContent = `${formatDate(data.created_at)} • ${readTime} menit b
 
   detailCover.src = data.cover_url || "assets/logo-ranex-media.png";
   detailCover.alt = data.title;
+  
+const detailImageCaption =
+  document.getElementById("detailImageCaption");
 
+if (detailImageCaption) {
+  detailImageCaption.textContent =
+    data.image_caption || "";
+}
   const formattedContent = formatContent(data.content);
 
 // ambil semua tag <p>...</p>

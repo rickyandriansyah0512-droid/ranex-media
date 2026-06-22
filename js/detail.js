@@ -128,6 +128,7 @@ async function loadArticleDetail() {
   id,
   title,
   slug,
+  views,
   excerpt,
   content,
   cover_url,

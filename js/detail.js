@@ -156,6 +156,12 @@ async function loadArticleDetail() {
   }
 
   currentArticle = data;
+  await supabaseClient.rpc(
+  "increment_article_views",
+  {
+    article_id: data.id
+  }
+);
   await supabaseClient
   .from("articles")
   .update({

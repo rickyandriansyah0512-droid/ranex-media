@@ -54,6 +54,7 @@ async function loadAdminAuthor() {
     excerpt,
     cover_url,
     created_at,
+    views,
     categories(name)
   `)
   .eq("writer_name", "Tim Ranex Media")
@@ -63,7 +64,13 @@ async function loadAdminAuthor() {
   authorArticleCount.textContent =
     articles?.length || 0;
 
-  authorReaderCount.textContent = "0";
+  const totalViews = (articles || []).reduce(
+  (total, article) => total + (article.views || 0),
+  0
+);
+
+authorReaderCount.textContent =
+  totalViews.toLocaleString("id-ID");
 
   authorArticleTitle.textContent =
     `Artikel dari ${authorName.textContent}`;
@@ -138,6 +145,7 @@ if (profile) {
       excerpt,
       cover_url,
       created_at,
+      views,
       categories(name)
     `)
     .eq("writer_name", authorNameParam)
@@ -152,8 +160,13 @@ if (profile) {
   authorArticleCount.textContent =
     articles?.length || 0;
 
-  authorReaderCount.textContent =
-    "0";
+  const totalViews = (articles || []).reduce(
+  (total, article) => total + (article.views || 0),
+  0
+);
+
+authorReaderCount.textContent =
+  totalViews.toLocaleString("id-ID");
 
   authorArticleTitle.textContent =
     `Artikel dari ${authorNameParam}`;

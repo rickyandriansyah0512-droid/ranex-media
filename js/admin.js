@@ -395,6 +395,8 @@ articleForm?.addEventListener("submit", async (e) => {
   const excerpt = document.getElementById("articleExcerpt").value.trim();
   const content = document.getElementById("articleContent").value.trim();
   const categoryId = document.getElementById("articleCategory").value;
+  const imageCaption =
+  document.getElementById("articleImageCaption")?.value.trim() || "";
 
   if (!title || !excerpt || !content) {
     showToast("Judul, ringkasan, dan isi artikel wajib diisi");
@@ -409,14 +411,18 @@ articleForm?.addEventListener("submit", async (e) => {
     const coverUrl = await uploadCoverImage();
     const slug = `${generateSlug(title)}-${Date.now()}`;
 
-   const { error } = await supabaseClient.from("articles").insert({
+  const { error } = await supabaseClient.from("articles").insert({
   title,
   slug,
   excerpt,
   content,
   cover_url: coverUrl,
+
+  image_caption: imageCaption,
+
   category_id: categoryId || null,
   author_id: currentUser.id,
+
   writer_name: "Tim Ranex Media",
   status: "published"
 });

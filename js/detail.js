@@ -157,10 +157,25 @@ async function loadArticleDetail() {
   }
 
   currentArticle = data;
-  await supabaseClient.rpc(
+ let visitorId =
+  localStorage.getItem("ranex_visitor_id");
+
+if (!visitorId) {
+
+  visitorId =
+    crypto.randomUUID();
+
+  localStorage.setItem(
+    "ranex_visitor_id",
+    visitorId
+  );
+}
+
+await supabaseClient.rpc(
   "increment_article_views",
   {
-    article_id: data.id
+    article_id: data.id,
+    visitor_id: visitorId
   }
 );
   console.log("ARTICLE", data);

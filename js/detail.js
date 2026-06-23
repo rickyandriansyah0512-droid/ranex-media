@@ -61,6 +61,11 @@ function updateArticleSEO(article) {
   document.title = title;
 
   setMeta('meta[name="description"]', description);
+  
+  setMeta(
+  'meta[name="keywords"]',
+  `${article.title}, ${article.categories?.name || "Berita"}, Ranex Media`
+);
 
   setMeta('meta[property="og:title"]', title);
   setMeta('meta[property="og:description"]', description);

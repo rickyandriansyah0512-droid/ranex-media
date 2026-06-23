@@ -4,9 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
   <title>Detail Artikel | Ranex Media</title>
 
   <meta name="description" content="Baca artikel lengkap dari Ranex Media.">
+  
+  <meta name="robots" content="index, follow">
+<meta name="author" content="Ranex Media">
+<meta name="theme-color" content="#0f172a">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Ranex Media">
@@ -24,9 +31,28 @@
 
   <link rel="icon" type="image/png" href="assets/logo-ranex-media.png">
   <link rel="apple-touch-icon" href="assets/logo-ranex-media.png">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://incllqupwigchudjuhve.supabase.co">
+  
   <link rel="stylesheet" href="css/style.css" />
 
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script id="articleSchema" type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"NewsArticle",
+  "headline":"Detail Artikel",
+  "publisher":{
+    "@type":"Organization",
+    "name":"Ranex Media",
+    "logo":{
+      "@type":"ImageObject",
+      "url":"https://media.ranexgroup.my.id/assets/logo-ranex-media.png"
+    }
+  }
+}
+</script>
+  
 </head>
 <body>
 
@@ -45,7 +71,10 @@
     <div class="container header-inner">
 
       <a href="index.html" class="brand">
-        <img src="assets/logo-ranex-media.png" alt="Ranex Media" class="brand-logo">
+     <img src="assets/logo-ranex-media.png"
+     alt="Ranex Media"
+     class="brand-logo"
+     loading="lazy">
         <div class="brand-text">
           <h2>Ranex Media</h2>
           <span>News • Insight • Community</span>
@@ -122,7 +151,10 @@
         <article class="article-content">
 
           <div id="detailCoverBox" class="detail-cover-box">
-            <img id="detailCover" src="assets/logo-ranex-media.png" alt="Cover Artikel">
+           <img id="detailCover"
+     src="assets/logo-ranex-media.png"
+     alt="Cover Artikel"
+     loading="lazy">
           </div>
           <div id="detailImageCaption" class="image-caption"></div>
 
@@ -264,8 +296,10 @@
       <div class="footer-grid">
 
         <div class="footer-brand">
-          <img src="assets/logo-ranex-media.png" alt="Ranex Media" class="footer-logo">
-
+         <img src="assets/logo-ranex-media.png"
+     alt="Ranex Media"
+     class="footer-logo"
+     loading="lazy">
           <h3>Ranex Media</h3>
 
           <p>

@@ -85,8 +85,8 @@ function addNewsArticleSchema(article, title, description, image, url) {
     "headline": article.title,
     "description": description,
     "image": [image],
-    "datePublished": article.created_at,
-    "dateModified": article.created_at,
+   "datePublished": article.created_at,
+"dateModified": article.updated_at || article.created_at,
     "author": {
       "@type": "Person",
       "name": article.profiles?.name || "Redaksi Ranex"
@@ -137,6 +137,7 @@ async function loadArticleDetail() {
   writer_name,
   writer_email,
   created_at,
+  updated_at,
   categories(name),
   profiles(
     name,

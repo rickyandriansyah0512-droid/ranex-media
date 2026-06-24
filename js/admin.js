@@ -108,6 +108,8 @@ canvas.toBlob(
   "image/webp",
   0.8
 );
+      };
+
     img.src = URL.createObjectURL(file);
 
   });

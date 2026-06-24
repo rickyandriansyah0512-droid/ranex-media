@@ -58,6 +58,11 @@ export default async function handler(req, res) {
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${description}">
 <meta property="og:image" content="${image}">
+<meta property="og:site_name" content="Ranex Media">
+<meta property="og:locale" content="id_ID">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="${url}">
 
 <meta name="twitter:card" content="summary_large_image">

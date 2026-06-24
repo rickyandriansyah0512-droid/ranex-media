@@ -69,9 +69,7 @@ coverInput?.addEventListener("change", () => {
   reader.readAsDataURL(file);
 
 });
-async function compressImage(file) {
-  async function createOGImage(file) {
-
+ async function createOGImage(file) {
   return new Promise((resolve) => {
 
     const img = new Image();
@@ -117,6 +115,67 @@ async function compressImage(file) {
         "image/jpeg",
         0.9
       );
+
+    };
+
+    img.src =
+      URL.createObjectURL(file);
+
+  });
+}
+
+async function compressImage(file) {
+
+  return new Promise((resolve) => {
+
+    const img = new Image();
+
+    img.onload = () => {
+
+      const canvas =
+        document.createElement("canvas");
+
+      const ctx =
+        canvas.getContext("2d");
+
+      const MAX_WIDTH = 1600;
+
+      let width = img.width;
+      let height = img.height;
+
+      if (width > MAX_WIDTH) {
+        height =
+          (height * MAX_WIDTH) / width;
+        width =
+          MAX_WIDTH;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx.drawImage(
+        img,
+        0,
+        0,
+        width,
+        height
+      );
+
+      canvas.toBlob(
+        (blob) => {
+
+          if (!blob) {
+            resolve(file);
+            return;
+          }
+
+          resolve(blob);
+
+        },
+        "image/webp",
+        0.8
+      );
+
     };
 
     img.src =
@@ -125,53 +184,8 @@ async function compressImage(file) {
   });
 
 }
-  return new Promise((resolve) => {
 
-    const img = new Image();
-
-    img.onload = () => {
-
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-     const MAX_WIDTH = 1600;
-
-let width = img.width;
-let height = img.height;
-
-if (width > MAX_WIDTH) {
-  height = (height * MAX_WIDTH) / width;
-  width = MAX_WIDTH;
-}
-
-canvas.width = width;
-canvas.height = height;
-
-ctx.drawImage(img, 0, 0, width, height);
-
-canvas.toBlob(
-  (blob) => {
-
-    if (!blob) {
-      resolve(file);
-      return;
-    }
-
-    resolve(blob);
-
-  },
-  "image/webp",
-  0.8
-);
-      };
-
-    img.src = URL.createObjectURL(file);
-
-  });
-}
-async function uploadCoverImage() {
-
-  async function uploadOGImage(file) {
+async function uploadOGImage(file) {
 
   const ogFile =
     await createOGImage(file);
@@ -201,10 +215,14 @@ async function uploadCoverImage() {
 
   return data.publicUrl;
 }
-  
-  const file = coverInput?.files[0];
 
-  if (!file) return null;
+async function uploadCoverImage() {
+
+  const file =
+    coverInput?.files[0];
+
+  if (!file)
+    return null;
 
   const compressedFile =
     await compressImage(file);
@@ -221,7 +239,8 @@ async function uploadCoverImage() {
         fileName,
         compressedFile,
         {
-          contentType: "image/webp"
+          contentType:
+            "image/webp"
         }
       );
 
@@ -488,10 +507,8 @@ async function approveSubmission(id) {
   slug,
   excerpt: submission.excerpt,
   content: submission.content,
-  cover_url: submission.cover_url,
-     cover_url: coverUrl,
-
-og_image_url: ogImageUrl,
+ cover_url: submission.cover_url,
+og_image_url: submission.og_image_url || null,
      
   category_id: categoryData?.id || null,
 

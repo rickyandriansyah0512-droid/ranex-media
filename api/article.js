@@ -54,7 +54,6 @@ const schema = {
 "description": description,
 "image": [image],
 
-```
 "datePublished": article.created_at,
 
 "dateModified":
@@ -80,7 +79,6 @@ const schema = {
   "@type": "WebPage",
   "@id": url
 }
-```
 
 };
 

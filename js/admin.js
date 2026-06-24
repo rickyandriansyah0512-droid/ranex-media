@@ -25,60 +25,6 @@ function generateSlug(text) {
     .replace(/--+/g, "-");
 }
 
-async function compressImage(file) {
-  return new Promise((resolve, reject) => {
-
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
-
-    reader.onload = (event) => {
-
-      const img = new Image();
-
-      img.src = event.target.result;
-
-      img.onload = () => {
-
-        const canvas =
-          document.createElement("canvas");
-
-        canvas.width = img.width;
-        canvas.height = img.height;
-
-        const ctx =
-          canvas.getContext("2d");
-
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          img.width,
-          img.height
-        );
-
-        canvas.toBlob(
-          (blob) => {
-
-            if (!blob) {
-              reject("Gagal kompres gambar");
-              return;
-            }
-
-            resolve(blob);
-
-          },
-          "image/webp",
-          0.8
-        );
-
-      };
-
-    };
-
-  });
-}
-
 coverInput?.addEventListener("change", () => {
 
   const file = coverInput.files[0];
@@ -123,7 +69,49 @@ coverInput?.addEventListener("change", () => {
   reader.readAsDataURL(file);
 
 });
+async function compressImage(file) {
+  return new Promise((resolve) => {
 
+    const img = new Image();
+
+    img.onload = () => {
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+     const MAX_WIDTH = 1600;
+
+let width = img.width;
+let height = img.height;
+
+if (width > MAX_WIDTH) {
+  height = (height * MAX_WIDTH) / width;
+  width = MAX_WIDTH;
+}
+
+canvas.width = width;
+canvas.height = height;
+
+ctx.drawImage(img, 0, 0, width, height);
+
+canvas.toBlob(
+  (blob) => {
+
+    if (!blob) {
+      resolve(file);
+      return;
+    }
+
+    resolve(blob);
+
+  },
+  "image/webp",
+  0.8
+);
+    img.src = URL.createObjectURL(file);
+
+  });
+}
 async function uploadCoverImage() {
 
   const file = coverInput?.files[0];

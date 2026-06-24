@@ -25,6 +25,60 @@ function generateSlug(text) {
     .replace(/--+/g, "-");
 }
 
+async function compressImage(file) {
+  return new Promise((resolve, reject) => {
+
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    reader.onload = (event) => {
+
+      const img = new Image();
+
+      img.src = event.target.result;
+
+      img.onload = () => {
+
+        const canvas =
+          document.createElement("canvas");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const ctx =
+          canvas.getContext("2d");
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          img.width,
+          img.height
+        );
+
+        canvas.toBlob(
+          (blob) => {
+
+            if (!blob) {
+              reject("Gagal kompres gambar");
+              return;
+            }
+
+            resolve(blob);
+
+          },
+          "image/webp",
+          0.8
+        );
+
+      };
+
+    };
+
+  });
+}
+
 coverInput?.addEventListener("change", () => {
 
   const file = coverInput.files[0];
@@ -71,31 +125,44 @@ coverInput?.addEventListener("change", () => {
 });
 
 async function uploadCoverImage() {
+
   const file = coverInput?.files[0];
 
   if (!file) return null;
 
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+  const compressedFile =
+    await compressImage(file);
 
-  const { error } = await supabaseClient
-    .storage
-    .from("article-covers")
-    .upload(fileName, file);
+  const fileName =
+    `${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2)}.webp`;
+
+  const { error } =
+    await supabaseClient.storage
+      .from("article-covers")
+      .upload(
+        fileName,
+        compressedFile,
+        {
+          contentType: "image/webp"
+        }
+      );
 
   if (error) {
     console.error(error);
-    throw new Error("Gagal upload cover artikel");
+    throw new Error(
+      "Gagal upload cover artikel"
+    );
   }
 
-  const { data } = supabaseClient
-    .storage
-    .from("article-covers")
-    .getPublicUrl(fileName);
+  const { data } =
+    supabaseClient.storage
+      .from("article-covers")
+      .getPublicUrl(fileName);
 
   return data.publicUrl;
 }
-
 adminMenuButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const target = button.dataset.adminTab;

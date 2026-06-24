@@ -56,8 +56,8 @@ function updateArticleSEO(article) {
   const title = `${article.title} | Ranex Media`;
   const description = article.excerpt || "Baca artikel lengkap dari Ranex Media.";
   const image = article.cover_url || "https://media.ranexgroup.my.id/assets/logo-ranex-media.png";
-  const url = `https://media.ranexgroup.my.id/detail.html?slug=${article.slug}`;
-
+  const url =
+`https://media.ranexgroup.my.id/article/${article.slug}`;
   document.title = title;
 
   setMeta('meta[name="description"]', description);
@@ -492,7 +492,12 @@ sendCommentBtn?.addEventListener("click", async () => {
 });
 
 copyLinkBtn?.addEventListener("click", async () => {
-  await navigator.clipboard.writeText(window.location.href);
+
+  const shareUrl =
+    `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
+
+  await navigator.clipboard.writeText(shareUrl);
+
   showToast("Link artikel berhasil disalin");
 });
 
@@ -511,21 +516,34 @@ bookmarkBtn?.addEventListener("click", () => {
 });
 
 shareWhatsApp?.addEventListener("click", () => {
-  const url = `https://wa.me/?text=${encodeURIComponent(document.title + " - " + window.location.href)}`;
+
+  const shareUrl =
+    `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
+
+  const url =
+    `https://wa.me/?text=${encodeURIComponent(
+      document.title + " - " + shareUrl
+    )}`;
+
   window.open(url, "_blank");
 });
 
 shareFacebook?.addEventListener("click", () => {
-  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+
+  const shareUrl =
+    `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
+
+  const url =
+    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+
   window.open(url, "_blank");
 });
-
 shareNative?.addEventListener("click", async () => {
   if (navigator.share) {
     await navigator.share({
       title: document.title,
       text: currentArticle?.excerpt || "Baca artikel ini di Ranex Media",
-      url: window.location.href
+     url: `https://media.ranexgroup.my.id/article/${currentArticle.slug}`
     });
   } else {
     await navigator.clipboard.writeText(window.location.href);

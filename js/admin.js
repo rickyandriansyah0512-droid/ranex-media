@@ -70,6 +70,61 @@ coverInput?.addEventListener("change", () => {
 
 });
 async function compressImage(file) {
+  async function createOGImage(file) {
+
+  return new Promise((resolve) => {
+
+    const img = new Image();
+
+    img.onload = () => {
+
+      const canvas =
+        document.createElement("canvas");
+
+      const ctx =
+        canvas.getContext("2d");
+
+      canvas.width = 1200;
+      canvas.height = 630;
+
+      const scale = Math.max(
+        1200 / img.width,
+        630 / img.height
+      );
+
+      const width =
+        img.width * scale;
+
+      const height =
+        img.height * scale;
+
+      const x =
+        (1200 - width) / 2;
+
+      const y =
+        (630 - height) / 2;
+
+      ctx.drawImage(
+        img,
+        x,
+        y,
+        width,
+        height
+      );
+
+      canvas.toBlob(
+        resolve,
+        "image/jpeg",
+        0.9
+      );
+    };
+
+    img.src =
+      URL.createObjectURL(file);
+
+  });
+
+}
   return new Promise((resolve) => {
 
     const img = new Image();
@@ -116,6 +171,37 @@ canvas.toBlob(
 }
 async function uploadCoverImage() {
 
+  async function uploadOGImage(file) {
+
+  const ogFile =
+    await createOGImage(file);
+
+  const fileName =
+    `og-${Date.now()}.jpg`;
+
+  const { error } =
+    await supabaseClient.storage
+      .from("og-images")
+      .upload(
+        fileName,
+        ogFile,
+        {
+          contentType:
+            "image/jpeg"
+        }
+      );
+
+  if (error)
+    throw error;
+
+  const { data } =
+    supabaseClient.storage
+      .from("og-images")
+      .getPublicUrl(fileName);
+
+  return data.publicUrl;
+}
+  
   const file = coverInput?.files[0];
 
   if (!file) return null;
@@ -403,6 +489,10 @@ async function approveSubmission(id) {
   excerpt: submission.excerpt,
   content: submission.content,
   cover_url: submission.cover_url,
+     cover_url: coverUrl,
+
+og_image_url: ogImageUrl,
+     
   category_id: categoryData?.id || null,
 
   author_id: submission.author_id,
@@ -465,7 +555,14 @@ articleForm?.addEventListener("submit", async (e) => {
   submitBtn.textContent = "Menyimpan...";
 
   try {
-    const coverUrl = await uploadCoverImage();
+   const coverUrl =
+  await uploadCoverImage();
+
+const ogImageUrl =
+  await uploadOGImage(
+    
+    coverInput.files[0]
+  );
     const slug = `${generateSlug(title)}-${Date.now()}`;
 
   const { error } = await supabaseClient.from("articles").insert({
@@ -473,7 +570,9 @@ articleForm?.addEventListener("submit", async (e) => {
   slug,
   excerpt,
   content,
+
   cover_url: coverUrl,
+  og_image_url: ogImageUrl,
 
   image_caption: imageCaption,
 
@@ -483,7 +582,6 @@ articleForm?.addEventListener("submit", async (e) => {
   writer_name: "Tim Ranex Media",
   status: "published"
 });
-
     if (error) throw error;
 
     showToast("Artikel berhasil dipublikasikan");

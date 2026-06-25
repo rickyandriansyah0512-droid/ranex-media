@@ -3,6 +3,10 @@
     {
       "source": "/article/:slug",
       "destination": "/api/article?slug=:slug"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
     }
   ]
 }

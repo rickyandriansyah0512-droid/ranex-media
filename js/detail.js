@@ -56,8 +56,8 @@ function updateArticleSEO(article) {
   const title = `${article.title} | Ranex Media`;
   const description = article.excerpt || "Baca artikel lengkap dari Ranex Media.";
   const image = article.cover_url || "https://media.ranexgroup.my.id/assets/logo-ranex-media.png";
-  const url =
-`https://media.ranexgroup.my.id/article/${article.slug}`;
+const url =
+`https://media.ranexgroup.my.id/detail.html?slug=${article.slug}`;
   document.title = title;
 
   setMeta('meta[name="description"]', description);

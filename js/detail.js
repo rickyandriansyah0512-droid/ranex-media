@@ -494,7 +494,7 @@ sendCommentBtn?.addEventListener("click", async () => {
 copyLinkBtn?.addEventListener("click", async () => {
 
   const shareUrl =
-    `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
+     `https://media.ranexgroup.my.id/detail.html?slug=${currentArticle.slug}`;
 
   await navigator.clipboard.writeText(shareUrl);
 
@@ -518,7 +518,7 @@ bookmarkBtn?.addEventListener("click", () => {
 shareWhatsApp?.addEventListener("click", () => {
 
   const shareUrl =
-    `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
+   `https://media.ranexgroup.my.id/detail.html?slug=${currentArticle.slug}`;
 
   const url =
     `https://wa.me/?text=${encodeURIComponent(
@@ -531,8 +531,8 @@ shareWhatsApp?.addEventListener("click", () => {
 shareFacebook?.addEventListener("click", () => {
 
   const shareUrl =
-    `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
-
+    `https://media.ranexgroup.my.id/detail.html?slug=${currentArticle.slug}`;
+  
   const url =
     `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
 
@@ -543,7 +543,8 @@ shareNative?.addEventListener("click", async () => {
     await navigator.share({
       title: document.title,
       text: currentArticle?.excerpt || "Baca artikel ini di Ranex Media",
-     url: `https://media.ranexgroup.my.id/article/${currentArticle.slug}`
+url: `https://media.ranexgroup.my.id/detail.html?slug=${currentArticle.slug}`
+      
     });
   } else {
     await navigator.clipboard.writeText(window.location.href);

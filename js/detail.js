@@ -57,7 +57,8 @@ function updateArticleSEO(article) {
   const description = article.excerpt || "Baca artikel lengkap dari Ranex Media.";
   const image = article.cover_url || "https://media.ranexgroup.my.id/assets/logo-ranex-media.png";
 const url =
-`https://media.ranexgroup.my.id/detail.html?slug=${article.slug}`;
+`https://media.ranexgroup.my.id/article/${article.slug}`;
+  
   document.title = title;
 
   setMeta('meta[name="description"]', description);
@@ -518,8 +519,8 @@ bookmarkBtn?.addEventListener("click", () => {
 shareWhatsApp?.addEventListener("click", () => {
 
   const shareUrl =
-   `https://media.ranexgroup.my.id/detail.html?slug=${currentArticle.slug}`;
-
+  `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
+  
   const url =
     `https://wa.me/?text=${encodeURIComponent(
       document.title + " - " + shareUrl
@@ -531,7 +532,7 @@ shareWhatsApp?.addEventListener("click", () => {
 shareFacebook?.addEventListener("click", () => {
 
   const shareUrl =
-    `https://media.ranexgroup.my.id/detail.html?slug=${currentArticle.slug}`;
+ `https://media.ranexgroup.my.id/article/${currentArticle.slug}`;
   
   const url =
     `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
@@ -543,7 +544,7 @@ shareNative?.addEventListener("click", async () => {
     await navigator.share({
       title: document.title,
       text: currentArticle?.excerpt || "Baca artikel ini di Ranex Media",
-url: `https://media.ranexgroup.my.id/detail.html?slug=${currentArticle.slug}`
+url: `https://media.ranexgroup.my.id/article/${currentArticle.slug}`
       
     });
   } else {
